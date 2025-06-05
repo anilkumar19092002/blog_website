@@ -1,0 +1,31 @@
+{% extends "blog/base.html" %}
+
+{% block title %}Home{% endblock %}
+
+{% block content %}
+<div class="row">
+    <div class="col-md-8 mx-auto">
+        <div class="quote-box animate__animated animate__fadeInLeft mb-4 p-3 bg-light rounded">
+            <blockquote class="blockquote">
+                <p><h1>__(❁´◡`❁)🗣️🗣️Your voice.🗣️🗣️(❁´◡`❁)__ <br>(❁´◡`❁)👨🏻‍💻👩🏻‍💻Your platform.👨🏻‍💻👩🏻‍💻(❁´◡`❁)</h1></p>
+            </blockquote>
+        </div>
+
+        {% for post in posts %}
+        <div class="card mb-4 animate__animated animate__fadeInUp">
+            <div class="card-body">
+                <h2 class="card-title"><a href="{% url 'post-detail' post.pk %}" class="text-decoration-none">{{ post.title }}</a></h2>
+                <p class="card-text text-muted">Posted by {{ post.author }} on {{ post.date_posted|date:"F d, Y" }}</p>
+                <p class="card-text">{{ post.content|truncatewords:30 }}</p>
+                <div class="d-flex justify-content-between align-items-center">
+                    <a href="{% url 'post-detail' post.pk %}" class="btn btn-primary btn-sm">Read More</a>
+                    <span class="text-muted">
+                        <i class="far fa-heart"></i> {{ post.total_likes }} likes
+                    </span>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,65 @@
+{% extends "blog/base.html" %}
+
+{% block title %}{% if title %}{{ title }}{% else %}Create New Post{% endif %}{% endblock %}
+
+{% block content %}
+<div class="row justify-content-center">
+    <div class="col-md-8">
+        <div class="card">
+            <div class="card-header bg-primary text-white">
+                <h4>{% if title %}{{ title }}{% else %}Create New Post{% endif %}</h4>
+            </div>
+            <div class="card-body">
+                <form method="POST" enctype="multipart/form-data">
+                    {% csrf_token %}
+                    <div class="mb-3">
+                        <label for="id_title" class="form-label">Title</label>
+                        {{ form.title }}
+                        {% if form.title.errors %}
+                        <div class="invalid-feedback d-block">
+                            {{ form.title.errors|first }}
+                        </div>
+                        {% endif %}
+                    </div>
+                    <div class="mb-3">
+                        <label for="id_content" class="form-label">Content</label>
+                        {{ form.content }}
+                        {% if form.content.errors %}
+                        <div class="invalid-feedback d-block">
+                            {{ form.content.errors|first }}
+                        </div>
+                        {% endif %}
+                    </div>
+                    <div class="mb-3">
+                        <label for="id_image" class="form-label">{{ form.image.label }}</label>
+                        {{ form.image }}
+                        <small class="text-muted">Max size: 5MB. Supported formats: JPG, PNG, GIF</small>
+                        {% if form.image.errors %}
+                        <div class="invalid-feedback d-block">
+                            {{ form.image.errors|first }}
+                        </div>
+                        {% endif %}
+                    </div>
+                    <div class="mb-3">
+                        <label for="id_video" class="form-label">{{ form.video.label }}</label>
+                        {{ form.video }}
+                        <small class="text-muted">Max size: 50MB. Supported formats: MP4, WebM</small>
+                        {% if form.video.errors %}
+                        <div class="invalid-feedback d-block">
+                            {{ form.video.errors|first }}
+                        </div>
+                        {% endif %}
+                    </div>
+                    <button type="submit" class="btn btn-primary">
+                        {% if title %}Update{% else %}Post{% endif %}
+                    </button>
+                    <a href="{% if form.instance.pk %}{% url 'post-detail' form.instance.pk %}{% else %}{% url 'home' %}{% endif %}" 
+                       class="btn btn-secondary">
+                        Cancel
+                    </a>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
